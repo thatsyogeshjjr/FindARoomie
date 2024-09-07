@@ -40,6 +40,11 @@ app.get("/api/v1/rooms/", async (req, res) => {
 // 2. Add a room
 app.post("/api/v1/rooms", async (req, res) => {
   const { block, floorNo, roomNo, note } = req.body;
+  if (block == "") {
+    res.status(400).json({ message: "incomplete details" });
+  }
+  console.log(Room.find({ block: block }));
+
   const room = new Room({ block, floorNo, roomNo, note });
   try {
     const newRoom = await room.save();
