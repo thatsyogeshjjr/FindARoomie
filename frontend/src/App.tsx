@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import "./App.css";
 
 function App() {
@@ -7,6 +8,31 @@ function App() {
   const [floor, setFloor] = useState(0);
   const [room, setRoom] = useState(0);
   const [pref, setPreference] = useState("");
+
+  axios.defaults.baseURL = import.meta.env.VITE_API;
+
+  async function handleSearch() {
+    await axios({
+      url: `/rooms?block=${block}`,
+      method: "GET",
+    }).then((res) => console.log(res.data));
+  }
+
+  async function handleAdd() {
+    await axios({
+      url: `/rooms`,
+      method: "POST",
+      data: { block: block, floorNo: floor, roomNo: room, note: pref },
+    }).then((res) => console.log(res.data));
+  }
+
+  async function handleRemove() {
+    await axios({
+      url: `/rooms`,
+      method: "DELETE",
+      data: { block: block, floorNo: floor, roomNo: room },
+    }).then((res) => console.log(res.data));
+  }
   return (
     <div className="flex flex-col items-center w-screen">
       <div className="header w-fit m-2 mt-4 rounded-md p-5 bg-primary">
@@ -80,7 +106,7 @@ function App() {
         </select>
         <button
           className="bg-dblue text-white rounded-3xl p-2 text-md w-fit px-8 py-2 "
-          onClick={() => {}}
+          onClick={() => handleSearch()}
         >
           Search
         </button>
@@ -173,7 +199,7 @@ function App() {
 
         <button
           className="bg-dblue text-white rounded-3xl p-2 text-md w-fit px-8 py-2 "
-          onClick={() => {}}
+          onClick={() => handleAdd()}
         >
           Add
         </button>
@@ -259,7 +285,7 @@ function App() {
 
         <button
           className="bg-dblue text-white rounded-3xl p-2 text-md w-fit px-8 py-2 "
-          onClick={() => {}}
+          onClick={() => handleRemove()}
         >
           Get if off here
         </button>
