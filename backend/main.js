@@ -40,17 +40,28 @@ app.get("/api/v1/rooms/", async (req, res) => {
 // 2. Add a room
 app.post("/api/v1/rooms", async (req, res) => {
   const { block, floorNo, roomNo, note } = req.body;
-  if (block == "") {
-    res.status(400).json({ message: "incomplete details" });
+  if (block == "" || floorNo < 0 || roomNo < 0 || note == "") {
+    res.status(409).json({ message: "incomplete form" });
+    res.end();
+    return;
   }
-  console.log(Room.find({ block: block }));
-
-  const room = new Room({ block, floorNo, roomNo, note });
-  try {
-    const newRoom = await room.save();
-    res.status(201).json(newRoom);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
+  const duplicates = await Room.find({
+    block: block,
+    floorNo: floorNo,
+    roomNo: roomNo,
+    note: note,
+  });
+  if (duplicates.length != 0) {
+    res.status(405).json({ message: "duplicate entry" });
+    res.end();
+  } else {
+    const room = new Room({ block, floorNo, roomNo, note });
+    try {
+      const newRoom = await room.save();
+      res.status(201).json(newRoom);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
   }
 });
 
