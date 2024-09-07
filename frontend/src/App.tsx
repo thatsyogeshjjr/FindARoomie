@@ -1,14 +1,18 @@
 import { useState } from "react";
 import axios from "axios";
 import "./App.css";
+import closeIcon from "./assets/close.png";
 import toast, { Toaster } from "react-hot-toast";
+import { Rooms } from "./Rooms.jsx";
 
 function App() {
   // const blocks = [B1,B2,B3,B4,B5,B6,B,7]
   const [block, setBlock] = useState("");
   const [floor, setFloor] = useState(0);
   const [room, setRoom] = useState(0);
+  const [roomResults, setRoomResults] = useState([]);
   const [pref, setPreference] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   axios.defaults.baseURL = import.meta.env.VITE_API;
 
@@ -20,13 +24,14 @@ function App() {
       if (res.data.length == 0) {
         toast.error("No Results Found");
       } else {
-        console.log(res.data);
+        setShowModal(true);
+        setRoomResults(res.data);
       }
     });
   }
 
   async function handleAdd() {
-    const data = { block: block, floorNo: floor, roomNo: room, note: pref };
+    // const data = { block: block, floorNo: floor, roomNo: room, note: pref };
 
     await axios({
       url: `/rooms`,
@@ -34,7 +39,15 @@ function App() {
       data: { block: block, floorNo: floor, roomNo: room, note: pref },
     })
       .then(() => toast.success("Added your room!"))
-      .catch(() => toast.error("Room couldn't be added"));
+      .catch((e) =>
+        toast.error(
+          e.status == 409
+            ? "Incomplete Form"
+            : e.status == 405
+            ? "Room already exists"
+            : "An Error Occured"
+        )
+      );
   }
 
   async function handleRemove() {
@@ -46,9 +59,32 @@ function App() {
       .then(() => toast.success("Room was removed"))
       .catch(() => toast.error("An Error occured."));
   }
+
   return (
     <>
       <div className="flex flex-col items-center w-screen">
+        <div
+          className={`${
+            showModal ? "flex" : "hidden"
+          } absolute flex flex-col w-[80vw] h-[80vh] p-4 bg-white shadow-md self-center`}
+        >
+          <div
+            id="header"
+            className="flex flex-row justify-between items-center"
+          >
+            <h2 className="text-2xl">Results</h2>
+            <img
+              src={closeIcon}
+              className="h-6 w-6 cursor-pointer"
+              alt=""
+              onClick={() => {
+                setShowModal(false);
+              }}
+            />
+          </div>
+          <hr />
+          <Rooms results={roomResults} />
+        </div>
         <div className="header w-fit m-2 mt-4 rounded-md p-5 bg-primary">
           <h2 className="text-2xl text-white font-bold">Find a Roomie</h2>
         </div>
