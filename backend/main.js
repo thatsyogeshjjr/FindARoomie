@@ -2,11 +2,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
-
+const cors = require("cors");
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT;
+
+app.use(cors());
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URL);
