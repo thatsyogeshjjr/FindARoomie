@@ -3,7 +3,7 @@ import axios from "axios";
 import "./App.css";
 import closeIcon from "./assets/close.png";
 import toast, { Toaster } from "react-hot-toast";
-import { Rooms } from "./Rooms.jsx";
+import { Rooms } from "./Rooms.tsx";
 
 function App() {
   // const blocks = [B1,B2,B3,B4,B5,B6,B,7]
