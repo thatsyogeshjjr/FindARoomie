@@ -43,8 +43,21 @@ app.get("/api/v1/rooms/", async (req, res) => {
 // 2. Add a room
 app.post("/api/v1/rooms", async (req, res) => {
   const { block, floorNo, roomNo, note } = req.body;
-  if (block == "" || floorNo < 0 || roomNo < 0 || note == "") {
-    res.status(409).json({ message: "incomplete form" });
+
+  if (block == "") {
+    res.status(409).json({ message: "Choose a block" });
+    res.end();
+    return;
+  } else if (floorNo < 0) {
+    res.status(409).json({ message: "Floor can't be less than zero" });
+    res.end();
+    return;
+  } else if (roomNo < 0) {
+    res.status(409).json({ message: "Room No. can't be less than zero" });
+    res.end();
+    return;
+  } else if (note == "") {
+    res.status(409).json({ message: "Note cannot be empty" });
     res.end();
     return;
   }
