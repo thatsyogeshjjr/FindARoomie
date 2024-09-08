@@ -8,8 +8,8 @@ import { Rooms } from "./Rooms.tsx";
 function App() {
   // const blocks = [B1,B2,B3,B4,B5,B6,B,7]
   const [block, setBlock] = useState("");
-  const [floor, setFloor] = useState(0);
-  const [room, setRoom] = useState(0);
+  const [floor, setFloor] = useState<number>(-1);
+  const [room, setRoom] = useState<number>(-1);
   const [roomResults, setRoomResults] = useState([]);
   const [pref, setPreference] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -33,21 +33,28 @@ function App() {
   async function handleAdd() {
     // const data = { block: block, floorNo: floor, roomNo: room, note: pref };
 
+    // non-empty fields check
+    if (room == -1) {
+      toast.error("Room / Floor can't be empty");
+      return;
+    }
+
     await axios({
       url: `/rooms`,
       method: "POST",
       data: { block: block, floorNo: floor, roomNo: room, note: pref },
     })
       .then(() => toast.success("Added your room!"))
-      .catch((e) =>
+      .catch((e) => {
+        console.log(e.response.data.message);
         toast.error(
           e.status == 409
-            ? "Incomplete Form"
+            ? e.response.data.message
             : e.status == 405
             ? "Room already exists"
             : "An Error Occured"
-        )
-      );
+        );
+      });
   }
 
   async function handleRemove() {
