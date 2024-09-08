@@ -4,14 +4,18 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const cors = require("cors");
 dotenv.config();
+console.log(process.env.MONGO_URL);
+
+mongoose
+  .connect(process.env.MONGO_URL)
+  .then(() => console.log("Mongo connection successful"))
+  .catch(() => console.log("Mongo connection Failed"));
+// const conn = mongoose.connection;
 
 const app = express();
 const port = process.env.PORT;
 
 app.use(cors());
-
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URL);
 
 // Create a Room schema
 const roomSchema = new mongoose.Schema({
@@ -45,13 +49,18 @@ app.post("/api/v1/rooms", async (req, res) => {
     res.end();
     return;
   }
+  // try {
   const duplicates = await Room.find({
     block: block,
     floorNo: floorNo,
     roomNo: roomNo,
     note: note,
   });
-  if (duplicates.length != 0) {
+  // } catch (e) {
+  //   res.status(400).json({ message: "An Error Occured." });
+  //   return;
+  // }
+  if (duplicates && duplicates.length != 0) {
     res.status(405).json({ message: "duplicate entry" });
     res.end();
   } else {
