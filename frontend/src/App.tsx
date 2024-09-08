@@ -34,7 +34,11 @@ function App() {
     // const data = { block: block, floorNo: floor, roomNo: room, note: pref };
 
     // non-empty fields check
-    if (room == -1) {
+    if (block == "") {
+      toast.error("Block can't be empty");
+      return;
+    }
+    if (room == -1 || floor == -1) {
       toast.error("Room / Floor can't be empty");
       return;
     }
