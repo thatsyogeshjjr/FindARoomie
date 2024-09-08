@@ -28,7 +28,7 @@ const RoomCard = ({ floor, room, note }: RoomDetails) => {
 };
 
 export const Rooms: React.FC<RoomsProps> = ({ results }) => {
-  console.log(results);
+  // console.log(results);
   if (results.length == 0) {
     return (
       <div>

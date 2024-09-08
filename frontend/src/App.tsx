@@ -30,6 +30,8 @@ function App() {
   }
 
   async function handleSearch() {
+    console.log("SEARCH", block, floor, room, pref);
+    toast("Loading", { icon: "🤔" });
     await axios({
       url: `/rooms?block=${block}`,
       method: "GET",
@@ -45,10 +47,11 @@ function App() {
 
   async function handleAdd() {
     // const data = { block: block, floorNo: floor, roomNo: room, note: pref };
-
+    console.log("ADD", block, floor, room, pref);
     if (isEmptyFields()) {
       return;
     }
+    toast("Loading", { icon: "🤔" });
 
     await axios({
       url: `/rooms`,
@@ -57,7 +60,7 @@ function App() {
     })
       .then(() => toast.success("Added your room!"))
       .catch((e) => {
-        console.log(e.response.data.message);
+        // console.log(e.response.data.message);
         toast.error(
           e.status == 409
             ? e.response.data.message
@@ -69,9 +72,11 @@ function App() {
   }
 
   async function handleRemove() {
+    console.log(block, floor, room, pref);
     if (isEmptyFields()) {
       return;
     }
+    toast("Loading", { icon: "🤔" });
     await axios({
       url: `/rooms`,
       method: "DELETE",
