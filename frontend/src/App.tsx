@@ -16,6 +16,19 @@ function App() {
 
   axios.defaults.baseURL = import.meta.env.VITE_API;
 
+  function isEmptyFields() {
+    // non-empty fields check
+    if (block == "") {
+      toast.error("Block can't be empty");
+      return true;
+    }
+    if (room == -1 || floor == -1) {
+      toast.error("Room / Floor can't be empty");
+      return true;
+    }
+    return false;
+  }
+
   async function handleSearch() {
     await axios({
       url: `/rooms?block=${block}`,
@@ -33,13 +46,7 @@ function App() {
   async function handleAdd() {
     // const data = { block: block, floorNo: floor, roomNo: room, note: pref };
 
-    // non-empty fields check
-    if (block == "") {
-      toast.error("Block can't be empty");
-      return;
-    }
-    if (room == -1 || floor == -1) {
-      toast.error("Room / Floor can't be empty");
+    if (isEmptyFields()) {
       return;
     }
 
@@ -62,6 +69,9 @@ function App() {
   }
 
   async function handleRemove() {
+    if (isEmptyFields()) {
+      return;
+    }
     await axios({
       url: `/rooms`,
       method: "DELETE",
@@ -109,61 +119,26 @@ function App() {
             name="block"
             id=""
             className="text-lg px-6 w-[60vw] sm:max-w-18 py-2 rounded-2xl bg-grey"
+            onChange={(event) => setBlock(event.target.value)}
           >
-            <option value="none" onClick={() => setBlock("b1")}>
-              Block
-            </option>
-            <option value="b1" onClick={() => setBlock("b1")}>
-              B1
-            </option>
-            <option value="b2" onClick={() => setBlock("b2")}>
-              B2
-            </option>
-            <option value="b3" onClick={() => setBlock("b3")}>
-              B3
-            </option>
-            <option value="b4" onClick={() => setBlock("b4")}>
-              B4
-            </option>
-            <option value="b5" onClick={() => setBlock("b5")}>
-              B5
-            </option>
-            <option value="b6" onClick={() => setBlock("b6")}>
-              B6
-            </option>
-            <option value="b7" onClick={() => setBlock("b7")}>
-              B7
-            </option>
-            <option value="b8" onClick={() => setBlock("b8")}>
-              B8
-            </option>
-            <option value="b9" onClick={() => setBlock("b9")}>
-              B9
-            </option>
-            <option value="b10" onClick={() => setBlock("b10")}>
-              B10
-            </option>
-            <option value="g1" onClick={() => setBlock("g1")}>
-              G1
-            </option>
-            <option value="g2" onClick={() => setBlock("g2")}>
-              G2
-            </option>
-            <option value="g3" onClick={() => setBlock("g3")}>
-              G3
-            </option>
-            <option value="g4" onClick={() => setBlock("g4")}>
-              G4
-            </option>
-            <option value="g5" onClick={() => setBlock("g5")}>
-              G5
-            </option>
-            <option value="g6" onClick={() => setBlock("g6")}>
-              G6
-            </option>
-            <option value="g7" onClick={() => setBlock("g7")}>
-              G7
-            </option>
+            <option value="">Block</option>
+            <option value="B1">B1</option>
+            <option value="B2">B2</option>
+            <option value="B3">B3</option>
+            <option value="B4">B4</option>
+            <option value="B5">B5</option>
+            <option value="B6">B6</option>
+            <option value="B7">B7</option>
+            <option value="B8">B8</option>
+            <option value="B9">B9</option>
+            <option value="B10">B10</option>
+            <option value="G1">G1</option>
+            <option value="G2">G2</option>
+            <option value="G3">G3</option>
+            <option value="G4">G4</option>
+            <option value="G5">G5</option>
+            <option value="G6">G6</option>
+            <option value="G7">G7</option>
           </select>
           <button
             className="bg-dblue text-white rounded-3xl p-2 text-md w-fit px-8 py-2 "
@@ -181,61 +156,26 @@ function App() {
             name="block"
             id=""
             className="text-lg px-6 w-[60vw] sm:max-w-18 py-2 rounded-2xl bg-grey"
+            onChange={(event) => setBlock(event.target.value)}
           >
-            <option value="none" onClick={() => setBlock("b1")}>
-              Block
-            </option>
-            <option value="b1" onClick={() => setBlock("b1")}>
-              B1
-            </option>
-            <option value="b2" onClick={() => setBlock("b2")}>
-              B2
-            </option>
-            <option value="b3" onClick={() => setBlock("b3")}>
-              B3
-            </option>
-            <option value="b4" onClick={() => setBlock("b4")}>
-              B4
-            </option>
-            <option value="b5" onClick={() => setBlock("b5")}>
-              B5
-            </option>
-            <option value="b6" onClick={() => setBlock("b6")}>
-              B6
-            </option>
-            <option value="b7" onClick={() => setBlock("b7")}>
-              B7
-            </option>
-            <option value="b8" onClick={() => setBlock("b8")}>
-              B8
-            </option>
-            <option value="b9" onClick={() => setBlock("b9")}>
-              B9
-            </option>
-            <option value="b10" onClick={() => setBlock("b10")}>
-              B10
-            </option>
-            <option value="g1" onClick={() => setBlock("g1")}>
-              G1
-            </option>
-            <option value="g2" onClick={() => setBlock("g2")}>
-              G2
-            </option>
-            <option value="g3" onClick={() => setBlock("g3")}>
-              G3
-            </option>
-            <option value="g4" onClick={() => setBlock("g4")}>
-              G4
-            </option>
-            <option value="g5" onClick={() => setBlock("g5")}>
-              G5
-            </option>
-            <option value="g6" onClick={() => setBlock("g6")}>
-              G6
-            </option>
-            <option value="g7" onClick={() => setBlock("g7")}>
-              G7
-            </option>
+            <option value="">Block</option>
+            <option value="B1">B1</option>
+            <option value="B2">B2</option>
+            <option value="B3">B3</option>
+            <option value="B4">B4</option>
+            <option value="B5">B5</option>
+            <option value="B6">B6</option>
+            <option value="B7">B7</option>
+            <option value="B8">B8</option>
+            <option value="B9">B9</option>
+            <option value="B10">B10</option>
+            <option value="G1">G1</option>
+            <option value="G2">G2</option>
+            <option value="G3">G3</option>
+            <option value="G4">G4</option>
+            <option value="G5">G5</option>
+            <option value="G6">G6</option>
+            <option value="G7">G7</option>
           </select>
 
           <input
@@ -274,61 +214,26 @@ function App() {
             name="block"
             id=""
             className="text-lg px-6 w-[60vw] sm:max-w-18 py-2 rounded-2xl bg-grey"
+            onChange={(event) => setBlock(event.target.value)}
           >
-            <option value="none" onClick={() => setBlock("b1")}>
-              Block
-            </option>
-            <option value="b1" onClick={() => setBlock("b1")}>
-              B1
-            </option>
-            <option value="b2" onClick={() => setBlock("b2")}>
-              B2
-            </option>
-            <option value="b3" onClick={() => setBlock("b3")}>
-              B3
-            </option>
-            <option value="b4" onClick={() => setBlock("b4")}>
-              B4
-            </option>
-            <option value="b5" onClick={() => setBlock("b5")}>
-              B5
-            </option>
-            <option value="b6" onClick={() => setBlock("b6")}>
-              B6
-            </option>
-            <option value="b7" onClick={() => setBlock("b7")}>
-              B7
-            </option>
-            <option value="b8" onClick={() => setBlock("b8")}>
-              B8
-            </option>
-            <option value="b9" onClick={() => setBlock("b9")}>
-              B9
-            </option>
-            <option value="b10" onClick={() => setBlock("b10")}>
-              B10
-            </option>
-            <option value="g1" onClick={() => setBlock("g1")}>
-              G1
-            </option>
-            <option value="g2" onClick={() => setBlock("g2")}>
-              G2
-            </option>
-            <option value="g3" onClick={() => setBlock("g3")}>
-              G3
-            </option>
-            <option value="g4" onClick={() => setBlock("g4")}>
-              G4
-            </option>
-            <option value="g5" onClick={() => setBlock("g5")}>
-              G5
-            </option>
-            <option value="g6" onClick={() => setBlock("g6")}>
-              G6
-            </option>
-            <option value="g7" onClick={() => setBlock("g7")}>
-              G7
-            </option>
+            <option value="">Block</option>
+            <option value="B1">B1</option>
+            <option value="B2">B2</option>
+            <option value="B3">B3</option>
+            <option value="B4">B4</option>
+            <option value="B5">B5</option>
+            <option value="B6">B6</option>
+            <option value="B7">B7</option>
+            <option value="B8">B8</option>
+            <option value="B9">B9</option>
+            <option value="B10">B10</option>
+            <option value="G1">G1</option>
+            <option value="G2">G2</option>
+            <option value="G3">G3</option>
+            <option value="G4">G4</option>
+            <option value="G5">G5</option>
+            <option value="G6">G6</option>
+            <option value="G7">G7</option>
           </select>
 
           <input
