@@ -4,7 +4,6 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const cors = require("cors");
 dotenv.config();
-console.log(process.env.MONGO_URL);
 
 mongoose
   .connect(process.env.MONGO_URL)
@@ -34,7 +33,7 @@ app.use(bodyParser.json());
 app.get("/api/v1/rooms/", async (req, res) => {
   const { block } = req.query;
   try {
-    const rooms = await Room.find({ block: new RegExp(block, "i") });
+    const rooms = await Room.find({ block: block });
     res.json(rooms);
   } catch (error) {
     res.status(500).json({ message: error.message });
