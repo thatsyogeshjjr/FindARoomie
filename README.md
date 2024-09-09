@@ -59,3 +59,11 @@ _For Frontend_
 **Server:** Node, Express
 
 **Database:** Mongo
+
+## Read More about it
+
+![LinkedIn Post](https://www.linkedin.com/feed/update/urn:li:activity:7238798775505272832/)
+
+## Screenshots
+
+![App Screenshot](https://media.licdn.com/dms/image/v2/D5622AQHh4h6qCAYAmw/feedshare-shrink_800/feedshare-shrink_800/0/1725864115804?e=1728518400&v=beta&t=bPz_DkZqm7WErxdbFX-6RYr7GEedKCkPQR6FgKX-nA8)
